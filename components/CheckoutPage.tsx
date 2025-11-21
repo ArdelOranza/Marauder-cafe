@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useCart } from '../contexts/CartContext';
 import { Order } from '../types';
+import gcashQrImage from './gcash-qr.png';
 
 interface CheckoutPageProps {
     onOrderSuccess: (order: Order) => void;
@@ -23,8 +24,8 @@ const CashIcon = () => (
 
 const DigitalWalletIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path d="M21 8V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2" />
-        <path d="M15 12h6v4h-6z" />
+        <path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2H5a2 2 0 0 0-2 2v8h16a2 2 0 0 0 2-2v-3h-6a2 2 0 0 1-2-2v-1a2 2 0 0 1 2-2h6V7a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v10a2 2 0 0 0 2 2h1" />
+        <circle cx="8" cy="15" r="1.5" />
     </svg>
 );
 
@@ -75,8 +76,10 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onOrderSuccess, onBa
     const paymentOptions = [
         { name: 'Credit/Debit Card', icon: CreditCardIcon },
         { name: 'Cash on Delivery', icon: CashIcon },
-        { name: 'Digital Wallet', icon: DigitalWalletIcon }
+        { name: 'Digital Wallet (GCash / InstaPay)', icon: DigitalWalletIcon }
     ];
+
+    const DIGITAL_WALLET_QR_URL = gcashQrImage;
 
     const progressSteps = [
         { label: 'Cart', description: 'Review items' },
@@ -92,7 +95,13 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onOrderSuccess, onBa
         e.preventDefault();
         setIsProcessing(true);
         
-        const newOrder: Order = { id: new Date().toISOString(), date: new Date().toLocaleString(), items: [...cartItems], totalPrice: totalPrice };
+        const newOrder: Order = {
+            id: new Date().toISOString(),
+            date: new Date().toLocaleString(),
+            items: [...cartItems],
+            totalPrice: totalPrice,
+            serviceMode: 'take-out'
+        };
 
         setTimeout(() => {
             clearCart();
@@ -233,6 +242,67 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onOrderSuccess, onBa
                                         </button>
                                     ))}
                                 </div>
+                                {selectedPayment.startsWith('Digital Wallet') && (
+                                    <div className="relative mt-6 overflow-hidden rounded-[28px] border border-white/12 bg-white/[0.03] p-6 shadow-[0_28px_55px_-45px_rgba(229,181,62,0.55)] backdrop-blur-xl">
+                                        <div
+                                            className="pointer-events-none absolute -top-24 -right-10 h-56 w-56 rounded-full blur-3xl"
+                                            style={{ background: 'var(--glow-color)', opacity: 0.18 }}
+                                        />
+                                        <div
+                                            className="pointer-events-none absolute -bottom-28 -left-16 h-64 w-64 rounded-full blur-3xl"
+                                            style={{ background: 'rgba(255,255,255,0.12)' }}
+                                        />
+                                        <div className="relative z-10 grid gap-6 md:grid-cols-[1.1fr_1fr] md:items-center">
+                                            <div className="space-y-4 text-slate-200">
+                                                <div className="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.35em] text-white shadow-[0_18px_36px_-32px_rgba(255,255,255,0.55)]">
+                                                    GCash
+                                                    <span className="h-1 w-1 rounded-full bg-white/60" />
+                                                    InstaPay
+                                                </div>
+                                                <h3 className="font-magic text-2xl text-white">Scan &amp; Sip Seamlessly</h3>
+                                                <p className="text-sm leading-relaxed text-slate-300">
+                                                    Settle your order in seconds with your favorite digital wallet. Open the GCash, Maya, or
+                                                    any InstaPay-enabled app, scan the QR, confirm the amount, and you&apos;re done.
+                                                </p>
+                                                <ul className="grid gap-3 text-sm text-slate-200">
+                                                    {["Open your app and choose 'Pay QR'", "Align the QR inside the frame to scan", "Confirm 'Marauder's Brew Cafe' as the recipient", 'Add your table or pickup name in the notes before sending'].map((item) => (
+                                                        <li key={item} className="flex items-start gap-3">
+                                                            <span className="mt-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[var(--glow-color)] text-[8px] font-bold text-black">✓</span>
+                                                            <span>{item}</span>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                                <div className="grid gap-2 text-xs text-slate-400 md:grid-cols-2">
+                                                    <div className="rounded-2xl border border-white/10 bg-black/30 p-3">
+                                                        <p className="text-[10px] uppercase tracking-[0.3em] text-slate-500">Account</p>
+                                                        <p className="text-sm font-semibold text-white">Marauder&apos;s Brew Cafe</p>
+                                                        <p>Mobile: 0995 932 ••••</p>
+                                                    </div>
+                                                    <div className="rounded-2xl border border-white/10 bg-black/30 p-3">
+                                                        <p className="text-[10px] uppercase tracking-[0.3em] text-slate-500">Reference</p>
+                                                        <p className="text-sm font-semibold text-white">K*****Y CL***E C.</p>
+                                                        <p>User ID: ••••••••Z8T361</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="mx-auto w-full max-w-xs">
+                                                <div className="relative rounded-[36px] border border-white/10 bg-white/90 p-4 shadow-[0_35px_85px_-60px_rgba(229,181,62,0.7)]">
+                                                    <div className="rounded-[30px] border border-white/40 bg-white p-4">
+                                                        <img
+                                                            src={DIGITAL_WALLET_QR_URL}
+                                                            alt="GCash InstaPay QR code for Marauder&apos;s Brew Cafe"
+                                                            className="h-full w-full rounded-[22px] object-contain"
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="mt-4 space-y-1 text-center text-xs text-slate-400">
+                                                    <p className="text-sm font-semibold text-white">Show this at the counter after payment.</p>
+                                                    <p>No incoming SMS? Tap &quot;View Receipt&quot; in your app and let our barista verify.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
 
