@@ -24,8 +24,17 @@ const CashIcon = () => (
 
 const DigitalWalletIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-        <path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2H5a2 2 0 0 0-2 2v8h16a2 2 0 0 0 2-2v-3h-6a2 2 0 0 1-2-2v-1a2 2 0 0 1 2-2h6V7a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v10a2 2 0 0 0 2 2h1" />
-        <circle cx="8" cy="15" r="1.5" />
+        <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M21 12V7.5A2.5 2.5 0 0018.5 5h-13A2.5 2.5 0 003 7.5v9A2.5 2.5 0 005.5 19h13a2.5 2.5 0 002.5-2.5V12Z"
+        />
+        <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M21 12h-4.5a2 2 0 000 4H21"
+        />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 9h5" />
     </svg>
 );
 
