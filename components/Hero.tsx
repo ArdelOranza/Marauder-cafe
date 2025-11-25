@@ -73,7 +73,7 @@ export const Hero: React.FC<HeroProps> = ({ mediaType, videoUrl, posterUrl, imag
 
     useEffect(() => {
         if (mediaType !== 'video') {
-            return () => {};
+            return () => { };
         }
 
         let isMounted = true;
@@ -193,12 +193,12 @@ export const Hero: React.FC<HeroProps> = ({ mediaType, videoUrl, posterUrl, imag
     const scaleValue = 1 + scrollY / 3000;
 
     return (
-        <div 
+        <div
             ref={heroRef}
             className="relative h-screen w-full flex items-center justify-center text-center text-white overflow-hidden"
         >
             {/* Parallax Media Background */}
-            <div 
+            <div
                 className="absolute inset-0 z-0"
                 style={{
                     transform: `translateY(${parallaxOffset}px) scale(${scaleValue})`,
@@ -231,7 +231,7 @@ export const Hero: React.FC<HeroProps> = ({ mediaType, videoUrl, posterUrl, imag
             )}
 
             {/* Content with Parallax */}
-            <div 
+            <div
                 className="relative z-10 p-4 flex flex-col items-center max-w-5xl mx-auto"
                 style={{
                     transform: `translateY(${-parallaxOffset * 0.3}px)`,
@@ -244,53 +244,60 @@ export const Hero: React.FC<HeroProps> = ({ mediaType, videoUrl, posterUrl, imag
                     <img
                         src={CAFE_LOGO}
                         alt="Marauder's Brew Cafe"
-                        className="w-full max-w-2xl md:max-w-4xl animate-fadeInUp hover:scale-105 transition-transform duration-500"
-                        style={{ animationDelay: '0.2s' }}
+                        className="w-full max-w-2xl md:max-w-4xl animate-fadeInUp hover:scale-105 transition-transform duration-500 animate-float transform-gpu"
+                        style={{ animationDelay: '0.2s', filter: 'drop-shadow(0 0 30px rgba(212, 175, 55, 0.3))' }}
                     />
                 </div>
 
                 {/* Tagline */}
                 <div className="overflow-hidden mb-12">
-                    <p 
+                    <p
                         className="text-xl md:text-3xl text-amber-300 font-light animate-fadeInUp tracking-wide"
-                        style={{ animationDelay: '0.5s' }}
+                        style={{ animationDelay: '0.5s', textShadow: '0 0 20px rgba(212, 175, 55, 0.4)' }}
                     >
                         {tagline}
                     </p>
                 </div>
 
                 {/* CTA Buttons */}
-                <div 
-                    className="flex flex-col sm:flex-row gap-4 animate-fadeInUp"
+                <div
+                    className="flex flex-col sm:flex-row gap-5 animate-fadeInUp"
                     style={{ animationDelay: '1.1s' }}
                 >
-                    <a 
-                        href="#promotions" 
-                        className="btn btn-primary px-8 py-4 text-lg font-bold shadow-2xl shadow-amber-500/50 hover:shadow-amber-500/70"
+                    <a
+                        href="#promotions"
+                        className="group btn btn-primary px-10 py-4 text-lg font-bold shadow-[0_25px_60px_-25px_rgba(212,175,55,0.7)] hover:shadow-[0_35px_80px_-30px_rgba(212,175,55,0.9)] flex items-center justify-center gap-2"
                     >
                         Explore Menu
+                        <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                        </svg>
                     </a>
-                    <a 
-                        href="#gallery" 
-                        className="btn btn-secondary px-8 py-4 text-lg font-bold backdrop-blur-md"
+                    <a
+                        href="#gallery"
+                        className="group btn btn-secondary px-10 py-4 text-lg font-bold backdrop-blur-md flex items-center justify-center gap-2"
                     >
                         View Gallery
+                        <svg className="w-5 h-5 transition-all group-hover:scale-110" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
                     </a>
                 </div>
             </div>
 
             {/* Scroll Indicator */}
-            <div 
-                className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-bounce"
+            <div
+                className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 flex flex-col items-center gap-2 animate-pulse"
                 style={{ opacity: opacityValue }}
             >
-                <svg 
-                    className="w-6 h-6 text-amber-300" 
-                    fill="none" 
-                    strokeLinecap="round" 
-                    strokeLinejoin="round" 
-                    strokeWidth="2" 
-                    viewBox="0 0 24 24" 
+                <p className="text-xs text-amber-300/80 uppercase tracking-[0.3em] font-semibold">Scroll Down</p>
+                <svg
+                    className="w-6 h-6 text-amber-300 animate-bounce"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
                     stroke="currentColor"
                 >
                     <path d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
@@ -303,9 +310,8 @@ export const Hero: React.FC<HeroProps> = ({ mediaType, videoUrl, posterUrl, imag
                         type="button"
                         onClick={handleToggleMute}
                         disabled={!isPlayerReady}
-                        className={`flex items-center gap-2 rounded-full border border-white/20 bg-black/40 px-4 py-2 text-sm font-semibold uppercase tracking-[0.25em] transition-all ${
-                            isPlayerReady ? 'hover:border-white/40 hover:bg-black/60 text-white' : 'text-slate-500 cursor-not-allowed'
-                        }`}
+                        className={`flex items-center gap-2 rounded-full border border-white/20 bg-black/40 px-4 py-2 text-sm font-semibold uppercase tracking-[0.25em] transition-all ${isPlayerReady ? 'hover:border-white/40 hover:bg-black/60 text-white' : 'text-slate-500 cursor-not-allowed'
+                            }`}
                     >
                         <span className="inline-flex items-center justify-center w-5 h-5">
                             {isMuted ? (

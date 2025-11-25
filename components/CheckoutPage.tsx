@@ -43,7 +43,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onOrderSuccess, onBa
     const [isProcessing, setIsProcessing] = useState(false);
     const [selectedPayment, setSelectedPayment] = useState('Cash on Delivery');
     const [voucherCode, setVoucherCode] = useState('');
-    const [appliedVoucher, setAppliedVoucher] = useState<{code: string, discount: number} | null>(null);
+    const [appliedVoucher, setAppliedVoucher] = useState<{ code: string, discount: number } | null>(null);
     const [voucherError, setVoucherError] = useState('');
 
     // Sample vouchers - in real app, fetch from backend
@@ -60,20 +60,20 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onOrderSuccess, onBa
     const handleApplyVoucher = () => {
         setVoucherError('');
         const voucher = validVouchers.find(v => v.code.toUpperCase() === voucherCode.toUpperCase());
-        
+
         if (!voucher) {
             setVoucherError('Invalid voucher code');
             return;
         }
-        
+
         if (subtotal < voucher.minOrder) {
             setVoucherError(`Minimum order of ₱${voucher.minOrder} required`);
             return;
         }
-        
-        setAppliedVoucher({ 
-            code: voucher.code, 
-            discount: voucher.isFixed ? voucher.discount : voucher.discount 
+
+        setAppliedVoucher({
+            code: voucher.code,
+            discount: voucher.isFixed ? voucher.discount : voucher.discount
         });
         setVoucherCode('');
     };
@@ -103,7 +103,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onOrderSuccess, onBa
     const handlePlaceOrder = (e: React.FormEvent) => {
         e.preventDefault();
         setIsProcessing(true);
-        
+
         const newOrder: Order = {
             id: new Date().toISOString(),
             date: new Date().toLocaleString(),
@@ -121,15 +121,18 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onOrderSuccess, onBa
     if (isProcessing) {
         return (
             <div className="min-h-screen flex flex-col items-center justify-center text-white p-4 bg-gradient-to-b from-[var(--bg-color)] to-stone-900">
-                <div className="glass-panel rounded-3xl p-12 text-center max-w-md">
-                    <div className="w-20 h-20 border-4 border-[var(--glow-color)] border-t-transparent rounded-full animate-spin mb-6 mx-auto"></div>
-                    <p className="font-magic text-3xl text-[var(--glow-color)] mb-3">Processing Your Order...</p>
+                <div className="glass-panel rounded-3xl p-12 text-center max-w-md animate-scaleIn">
+                    <div className="relative w-20 h-20 mx-auto mb-6">
+                        <div className="w-20 h-20 border-4 border-[var(--glow-color)] border-t-transparent rounded-full animate-spin"></div>
+                        <div className="absolute inset-0 rounded-full" style={{ animation: 'shimmerGlow 2s ease-in-out infinite' }}></div>
+                    </div>
+                    <p className="font-magic text-3xl text-[var(--glow-color)] mb-3 animate-pulse">Processing Your Order...</p>
                     <p className="text-[var(--text-muted-color)] text-lg">Please wait a moment while we prepare your magical experience.</p>
                 </div>
             </div>
         );
     }
-    
+
     return (
         <div className="min-h-screen bg-gradient-to-b from-stone-950 via-black to-stone-950 pt-10 pb-16">
             <div className="mx-auto w-full px-4 sm:px-6 lg:px-10">
@@ -151,28 +154,36 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onOrderSuccess, onBa
                         </button>
                     </div>
 
-                    <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 shadow-[0_22px_60px_-48px_rgba(229,181,62,0.45)] backdrop-blur-lg">
-                        <div className="relative h-1.5 rounded-full bg-white/10 overflow-hidden">
-                            <span className="absolute inset-y-0 left-0 rounded-full bg-[var(--glow-color)]" style={{ width: `${progressPercent}%` }} />
+                    <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6 shadow-[0_22px_60px_-48px_rgba(229,181,62,0.45)] backdrop-blur-lg transition-smooth hover:border-white/20">
+                        <div className="relative h-2 rounded-full bg-white/10 overflow-hidden">
+                            <span
+                                className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-[var(--glow-color)] via-yellow-500 to-amber-400 transition-all duration-700 ease-out"
+                                style={{
+                                    width: `${progressPercent}%`,
+                                    boxShadow: '0 0 20px rgba(var(--glow-color-rgb), 0.6)'
+                                }}
+                            />
                         </div>
                         <div className="mt-6 grid gap-6 text-center sm:grid-cols-2 md:grid-cols-4">
                             {progressSteps.map((step, idx) => {
                                 const isActive = idx <= currentStep;
                                 return (
-                                    <div key={step.label} className="flex flex-col items-center gap-2">
+                                    <div key={step.label} className="flex flex-col items-center gap-2 animate-fadeInUp" style={{ animationDelay: `${idx * 0.1}s` }}>
                                         <div
-                                            className={`flex h-12 w-12 items-center justify-center rounded-full border-2 transition duration-300 ${
-                                                isActive
-                                                    ? 'border-[var(--glow-color)] bg-[var(--glow-color)] text-black shadow-[0_15px_35px_-20px_rgba(229,181,62,0.7)]'
-                                                    : 'border-white/15 bg-white/5 text-slate-300'
-                                            }`}
+                                            className={`flex h-12 w-12 items-center justify-center rounded-full border-2 transition-all duration-500 font-bold ${isActive
+                                                    ? 'border-[var(--glow-color)] bg-[var(--glow-color)] text-black shadow-[0_15px_35px_-20px_rgba(229,181,62,0.7)] scale-110'
+                                                    : 'border-white/15 bg-white/5 text-slate-300 hover:border-white/30 hover:bg-white/10'
+                                                }`}
                                         >
-                                            {idx + 1}
+                                            {isActive ? (
+                                                <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                                </svg>
+                                            ) : idx + 1}
                                         </div>
                                         <p
-                                            className={`text-[11px] font-semibold uppercase tracking-[0.35em] ${
-                                                isActive ? 'text-[var(--glow-color)]' : 'text-slate-500'
-                                            }`}
+                                            className={`text-[11px] font-semibold uppercase tracking-[0.35em] transition-colors ${isActive ? 'text-[var(--glow-color)]' : 'text-slate-500'
+                                                }`}
                                         >
                                             {step.label}
                                         </p>
@@ -187,7 +198,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onOrderSuccess, onBa
                     <div className="grid grid-cols-1 lg:grid-cols-7 gap-8">
                         {/* Left Column: Form Details */}
                         <div className="lg:col-span-4 space-y-6">
-                             <div className="rounded-[28px] border border-white/10 bg-white/[0.04] p-6 shadow-[0_22px_55px_-46px_rgba(0,0,0,0.7)] backdrop-blur-lg">
+                            <div className="rounded-[28px] border border-white/10 bg-white/[0.04] p-6 shadow-[0_22px_55px_-46px_rgba(0,0,0,0.7)] backdrop-blur-lg">
                                 <h2 className="font-magic text-lg text-white tracking-[0.3em] mb-4">Delivery Information</h2>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                     <div>
@@ -217,32 +228,29 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onOrderSuccess, onBa
                                 </div>
                             </div>
 
-                             <div className="rounded-[28px] border border-white/10 bg-white/[0.04] p-6 shadow-[0_22px_55px_-46px_rgba(0,0,0,0.7)] backdrop-blur-lg">
+                            <div className="rounded-[28px] border border-white/10 bg-white/[0.04] p-6 shadow-[0_22px_55px_-46px_rgba(0,0,0,0.7)] backdrop-blur-lg">
                                 <h2 className="font-magic text-lg text-white tracking-[0.3em] mb-4">Payment Method</h2>
                                 <div className="space-y-2">
                                     {paymentOptions.map(option => (
-                                        <button 
-                                            key={option.name} 
-                                            type="button" 
-                                            onClick={() => setSelectedPayment(option.name)} 
-                                            className={`group w-full text-left p-4 rounded-2xl border transition-all duration-300 flex items-center gap-3 shadow-[0_18px_36px_-32px_rgba(0,0,0,0.7)] ${
-                                                selectedPayment === option.name 
-                                                    ? 'bg-white/5 border-[var(--glow-color)]' 
+                                        <button
+                                            key={option.name}
+                                            type="button"
+                                            onClick={() => setSelectedPayment(option.name)}
+                                            className={`group w-full text-left p-4 rounded-2xl border transition-all duration-300 flex items-center gap-3 shadow-[0_18px_36px_-32px_rgba(0,0,0,0.7)] ${selectedPayment === option.name
+                                                    ? 'bg-white/5 border-[var(--glow-color)]'
                                                     : 'bg-white/[0.02] border-white/5 hover:border-white/10'
-                                            }`}
+                                                }`}
                                         >
-                                            <div className={`p-2 rounded-md ${
-                                                selectedPayment === option.name 
-                                                    ? 'bg-[var(--glow-color)] text-black' 
+                                            <div className={`p-2 rounded-md ${selectedPayment === option.name
+                                                    ? 'bg-[var(--glow-color)] text-black'
                                                     : 'bg-stone-800 text-slate-300 group-hover:bg-stone-700'
-                                            }`}>
+                                                }`}>
                                                 <option.icon />
                                             </div>
-                                            <span className={`flex-grow font-medium text-sm ${
-                                                selectedPayment === option.name 
-                                                    ? 'text-white' 
+                                            <span className={`flex-grow font-medium text-sm ${selectedPayment === option.name
+                                                    ? 'text-white'
                                                     : 'text-slate-300'
-                                            }`}>{option.name}</span>
+                                                }`}>{option.name}</span>
                                             {selectedPayment === option.name && (
                                                 <svg className="w-5 h-5 text-[var(--glow-color)]" fill="currentColor" viewBox="0 0 20 20">
                                                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -318,7 +326,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onOrderSuccess, onBa
                         {/* Right Column: Order Summary */}
                         <div className="lg:col-span-3">
                             <div className="sticky top-24">
-                                <div className="rounded-[32px] border border-white/10 bg-white/[0.06] p-6 flex flex-col shadow-[0_24px_60px_-50px_rgba(0,0,0,0.75)] backdrop-blur-lg" style={{maxHeight: 'calc(100vh - 6rem)'}}>
+                                <div className="rounded-[32px] border border-white/10 bg-white/[0.06] p-6 flex flex-col shadow-[0_24px_60px_-50px_rgba(0,0,0,0.75)] backdrop-blur-lg" style={{ maxHeight: 'calc(100vh - 6rem)' }}>
                                     <div className="flex items-center justify-between border-b border-white/5 pb-3">
                                         <div>
                                             <h3 className="font-magic text-lg text-white tracking-[0.3em]">Order Summary</h3>
@@ -357,14 +365,14 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onOrderSuccess, onBa
                                             ) : (
                                                 <div className="space-y-1">
                                                     <div className="flex gap-1.5">
-                                                        <input 
-                                                            type="text" 
+                                                        <input
+                                                            type="text"
                                                             value={voucherCode}
                                                             onChange={(e) => setVoucherCode(e.target.value.toUpperCase())}
                                                             placeholder="Enter code"
                                                             className="form-input text-sm flex-grow"
                                                         />
-                                                        <button 
+                                                        <button
                                                             type="button"
                                                             onClick={handleApplyVoucher}
                                                             className="px-3 py-2 rounded-lg bg-[var(--glow-color)] text-black text-xs font-semibold transition-all duration-200 hover:-translate-y-0.5 hover:bg-amber-400"
@@ -400,7 +408,7 @@ export const CheckoutPage: React.FC<CheckoutPageProps> = ({ onOrderSuccess, onBa
                                                 <span className="text-[var(--glow-color)]">₱{totalPrice.toFixed(2)}</span>
                                             </div>
                                         </div>
-                                        
+
                                         <button type="submit" className="group relative w-full overflow-hidden rounded-2xl bg-gradient-to-r from-[var(--glow-color)] via-amber-400 to-yellow-500 py-3.5 text-base font-semibold text-black shadow-[0_22px_55px_-25px_rgba(229,181,62,0.55)] transition-transform duration-300 hover:-translate-y-0.5">
                                             <span className="relative z-10 flex items-center justify-center gap-2 uppercase tracking-[0.3em]">
                                                 Place Order

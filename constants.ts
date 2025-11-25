@@ -595,19 +595,19 @@ export const MENU_DATA: MenuSectionType[] = [
 ];
 
 export const CAFE_INFO = {
-    address: "47 Kisad Road Montinola Subd, Baguio, 2600 Benguet",
-    phone: "0915 672 3579",
-    email: "orders@maraudersbrew.co.uk",
-    operatingHours: {
-        notice: "Closed on Mondays",
-        schedule: "Tuesday – Sunday: 12:00 PM – 9:00 PM"
-    },
-    social: {
-        instagram: "https://instagram.com",
-        facebook: "https://facebook.com",
-        twitter: "https://twitter.com",
-    },
-    mapsEmbedUrl: "https://maps.google.com/maps?q=47%20Kisad%20Road%20Montinola%20Subd%2C%20Baguio%2C%202600%20Benguet&z=16&output=embed"
+  address: "47 Kisad Road Montinola Subd, Baguio, 2600 Benguet",
+  phone: "0915 672 3579",
+  email: "orders@maraudersbrew.co.uk",
+  operatingHours: {
+    notice: "Closed on Mondays",
+    schedule: "Tuesday – Sunday: 12:00 PM – 9:00 PM"
+  },
+  social: {
+    instagram: "https://instagram.com",
+    facebook: "https://facebook.com",
+    twitter: "https://twitter.com",
+  },
+  mapsEmbedUrl: "https://maps.google.com/maps?q=47%20Kisad%20Road%20Montinola%20Subd%2C%20Baguio%2C%202600%20Benguet&z=16&output=embed"
 };
 
 export const PROMOTIONS: PromotionType[] = [
@@ -656,33 +656,33 @@ export const PROMOTIONS: PromotionType[] = [
 ];
 
 export const ALLERGENS_LIST = [
-    'Wheat',
-    'Dairy',
-    'Soy',
-    'Seafood',
-    'Nuts',
-    'Peanuts',
-    'Gluten'
+  'Wheat',
+  'Dairy',
+  'Soy',
+  'Seafood',
+  'Nuts',
+  'Peanuts',
+  'Gluten'
 ];
 
 export interface GalleryImage {
-    id: string;
-    url: string;
-    title: string;
-    category: string;
+  id: string;
+  url: string;
+  title: string;
+  category: string;
 }
 
 export const GALLERY_IMAGES: GalleryImage[] = [
-    { id: 'g1', url: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80', title: "Marauder's Brew Interior", category: 'Ambiance' },
-    { id: 'g2', url: 'https://images.unsplash.com/photo-1559925393-8be0ec4767c8?auto=format&fit=crop&w=800&q=80', title: 'Signature Butter Brew', category: 'Drinks' },
-    { id: 'g3', url: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80', title: 'Artisan Beverages', category: 'Drinks' },
-    { id: 'g4', url: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80', title: 'Cozy Dining Space', category: 'Ambiance' },
-    { id: 'g5', url: 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=80', title: 'Gourmet Delights', category: 'Ambiance' },
-    { id: 'g6', url: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=800&q=80', title: 'Relaxing Corner', category: 'Ambiance' },
-    { id: 'g7', url: 'https://images.unsplash.com/photo-1574894709920-31b29d1dc559?auto=format&fit=crop&w=800&q=80', title: 'Culinary Creations', category: 'Ambiance' },
-    { id: 'g8', url: 'https://images.unsplash.com/photo-1572442388796-11668a65343d?auto=format&fit=crop&w=800&q=80', title: 'Specialty Drinks', category: 'Drinks' },
-    { id: 'g9', url: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=800&q=80', title: 'Special Events', category: 'Events' },
-    { id: 'g10', url: 'https://images.unsplash.com/photo-1583229434451-d8a4f932454a?auto=format&fit=crop&w=800&q=80', title: 'Dessert Selection', category: 'Ambiance' },
-    { id: 'g11', url: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=800&q=80', title: 'Magical Atmosphere', category: 'Ambiance' },
-    { id: 'g12', url: 'https://images.unsplash.com/photo-1556742059-4351b000a649?auto=format&fit=crop&w=800&q=80', title: 'Gatherings & Celebrations', category: 'Events' }
+  { id: 'g1', url: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80', title: "Marauder's Brew Interior", category: 'Ambiance' },
+  { id: 'g2', url: 'https://images.unsplash.com/photo-1559925393-8be0ec4767c8?auto=format&fit=crop&w=800&q=80', title: 'Signature Butter Brew', category: 'Drinks' },
+  { id: 'g3', url: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80', title: 'Artisan Beverages', category: 'Drinks' },
+  { id: 'g4', url: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=800&q=80', title: 'Cozy Dining Space', category: 'Ambiance' },
+  { id: 'g5', url: 'https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=80', title: 'Gourmet Delights', category: 'Ambiance' },
+  { id: 'g6', url: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=800&q=80', title: 'Relaxing Corner', category: 'Ambiance' },
+  { id: 'g7', url: 'https://images.unsplash.com/photo-1574894709920-31b29d1dc559?auto=format&fit=crop&w=800&q=80', title: 'Culinary Creations', category: 'Ambiance' },
+  { id: 'g8', url: 'https://images.unsplash.com/photo-1572442388796-11668a65343d?auto=format&fit=crop&w=800&q=80', title: 'Specialty Drinks', category: 'Drinks' },
+  { id: 'g9', url: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&w=800&q=80', title: 'Special Events', category: 'Events' },
+  { id: 'g10', url: 'https://images.unsplash.com/photo-1583229434451-d8a4f932454a?auto=format&fit=crop&w=800&q=80', title: 'Dessert Selection', category: 'Ambiance' },
+  { id: 'g11', url: 'https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=800&q=80', title: 'Magical Atmosphere', category: 'Ambiance' },
+  { id: 'g12', url: 'https://images.unsplash.com/photo-1556742059-4351b000a649?auto=format&fit=crop&w=800&q=80', title: 'Gatherings & Celebrations', category: 'Events' }
 ];

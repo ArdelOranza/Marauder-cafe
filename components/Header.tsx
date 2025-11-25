@@ -64,25 +64,25 @@ export const Header: React.FC<HeaderProps> = ({ onCartClick, onPensieveClick, on
 
     return (
         <header className="bg-black/55 backdrop-blur-2xl sticky top-0 z-40 border-b border-white/5 shadow-[0_12px_32px_-26px_rgba(229,181,62,0.4)]">
-            <div className="container mx-auto flex justify-between items-center px-6 sm:px-10 py-4">
-                <div className="flex items-center gap-4 cursor-pointer" onClick={handleLogoClick} title="Admin Access">
-                    <img src={HEADER_LOGO} alt="Marauder's Brew Logo" className="h-12 sm:h-14 lg:h-16 hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_14px_rgba(229,181,62,0.16)]" />
-                    <h1 className="font-magic text-lg sm:text-2xl text-white tracking-[0.4em] hidden sm:block drop-shadow-[0_0_18px_rgba(229,181,62,0.2)]">Marauder's Brew</h1>
+            <div className="container mx-auto flex justify-between items-center px-5 sm:px-8 py-3">
+                <div className="flex items-center gap-3 cursor-pointer" onClick={handleLogoClick} title="Admin Access">
+                    <img src={HEADER_LOGO} alt="Marauder's Brew Logo" className="h-10 sm:h-12 lg:h-14 hover:scale-105 transition-transform duration-300 drop-shadow-[0_0_12px_rgba(229,181,62,0.12)]" />
+                    <h1 className="font-magic text-base sm:text-xl text-white tracking-[0.35em] hidden sm:block drop-shadow-[0_0_14px_rgba(229,181,62,0.18)]">Marauder's Brew</h1>
                 </div>
                 {/* Desktop Navigation */}
-                <nav className="hidden md:flex items-center gap-2">
+                <nav className="hidden md:flex items-center gap-1.5">
                     {navLinks.map(link => (
-                        <a href={link.href} key={link.href} className="text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-200 text-sm font-semibold py-2.5 px-4 rounded-xl whitespace-nowrap">
+                        <a href={link.href} key={link.href} className="text-slate-300 hover:text-white hover:bg-white/10 transition-all duration-200 text-xs font-semibold py-2 px-3.5 rounded-xl whitespace-nowrap">
                            {link.label}
                         </a>
                     ))}
                 </nav>
                 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5">
                     {/* Mobile Menu Button */}
                     <button
                         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                        className="md:hidden p-3 text-slate-300 hover:text-white transition-colors"
+                        className="md:hidden p-2.5 text-slate-300 hover:text-white transition-colors"
                         aria-label="Toggle menu"
                     >
                         {isMobileMenuOpen ? (

@@ -23,6 +23,7 @@ interface GalleryFormData {
     url: string;
     title: string;
     category: string;
+    description: string;
 }
 
 
@@ -301,7 +302,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     const [activeTab, setActiveTab] = useState<'menu' | 'gallery' | 'promotions' | 'settings' | 'import-export' | 'analytics'>('menu');
     const [newPromo, setNewPromo] = useState<Partial<PromotionType>>({ name: '', description: '', tagline: '', image: '' });
     const [editingPromoIndex, setEditingPromoIndex] = useState<number | null>(null);
-    const [newGalleryItem, setNewGalleryItem] = useState<GalleryFormData>({ url: '', title: '', category: 'Ambiance' });
+    const [newGalleryItem, setNewGalleryItem] = useState<GalleryFormData>({ url: '', title: '', category: 'Ambiance', description: '' });
     const [editingGalleryId, setEditingGalleryId] = useState<string | null>(null);
     const [editingItemSection, setEditingItemSection] = useState<string>(() => menuData[0]?.section_name || '');
     const [calculatorInputs, setCalculatorInputs] = useState({
@@ -497,7 +498,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     };
 
     const resetGalleryForm = () => {
-        setNewGalleryItem({ url: '', title: '', category: 'Ambiance' });
+        setNewGalleryItem({ url: '', title: '', category: 'Ambiance', description: '' });
         setEditingGalleryId(null);
     };
 
@@ -533,7 +534,7 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
     const handleEditGalleryImage = (id: string) => {
         const image = galleryImages.find(img => img.id === id);
         if (!image) return;
-        setNewGalleryItem({ url: image.url, title: image.title, category: image.category });
+        setNewGalleryItem({ url: image.url, title: image.title, category: image.category, description: image.description ?? '' });
         setEditingGalleryId(id);
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
@@ -1198,6 +1199,15 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
                                         onChange={(e) => setNewGalleryItem(prev => ({ ...prev, title: e.target.value }))}
                                         className="form-input"
                                         placeholder="Image title"
+                                    />
+                                </div>
+                                <div className="md:col-span-2">
+                                    <label className="block text-sm font-bold text-slate-200 mb-2">Description</label>
+                                    <textarea
+                                        value={newGalleryItem.description}
+                                        onChange={(e) => setNewGalleryItem(prev => ({ ...prev, description: e.target.value }))}
+                                        className="form-input h-24"
+                                        placeholder="Tell guests what this scene captures."
                                     />
                                 </div>
                                 <div>

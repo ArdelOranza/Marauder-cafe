@@ -1,177 +1,417 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Marauder's Brew Cafe</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-      :root {
-        --bg-color: #0A0A0A;
-        --glow-color: #D4AF37; /* Tailwind amber-500 */
-        --border-color: #1F1F1F;
-        --text-color: #F5F5F4; /* Tailwind gray-200 */
-        --text-muted-color: #A8A29E; /* Tailwind gray-400 */
-        --panel-bg-color: #141414; /* Tailwind stone-800 */
-        --shadow-glow: 0 0 30px rgba(212, 175, 55, 0.4);
-      }
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Cinzel', serif;
-        background: linear-gradient(180deg, #000000 0%, #0A0A0A 50%, #000000 100%);
-        color: var(--text-color);
-        overflow-x: hidden;
-      }
-      .font-magic {
-        font-family: 'Cinzel', serif;
-        font-weight: 600;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-      }
-      .panel-background {
-        background-color: var(--panel-bg-color);
-        border: 1px solid var(--border-color);
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marauder's Brew Cafe</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Core Colors - HSL based for easy manipulation */
+      --bg-color: #0A0A0A;
+      --glow-color: hsl(43, 75%, 55%);
+      /* Refined gold */
+      --glow-color-rgb: 212, 175, 55;
+      --border-color: #1F1F1F;
+      --text-color: #F5F5F4;
+      --text-muted-color: #A8A29E;
+      --panel-bg-color: #141414;
+      --shadow-glow: 0 0 30px rgba(212, 175, 55, 0.4);
+
+      /* Enhanced Design Tokens */
+      --gradient-shimmer: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+      --glass-bg: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(10, 10, 10, 0.95) 100%);
+      --spring-easing: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --smooth-easing: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    ::selection {
+      background: var(--glow-color);
+      color: #000;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Cinzel', serif;
+      background: linear-gradient(180deg, #000000 0%, #0A0A0A 50%, #000000 100%);
+      color: var(--text-color);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .font-magic {
+      font-family: 'Cinzel', serif;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .panel-background {
+      background-color: var(--panel-bg-color);
+      border: 1px solid var(--border-color);
+    }
+
+    .glass-panel {
+      background: var(--glass-bg);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid rgba(var(--glow-color-rgb), 0.12);
+      box-shadow:
+        0 8px 32px 0 rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(var(--glow-color-rgb), 0.15),
+        0 1px 3px rgba(var(--glow-color-rgb), 0.1);
+    }
+
+    /* Enhanced Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
       }
 
-      .glass-panel {
-        background: linear-gradient(135deg, rgba(20, 20, 20, 0.95) 0%, rgba(10, 10, 10, 0.95) 100%);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid rgba(212, 175, 55, 0.1);
-        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(212, 175, 55, 0.1);
+      to {
+        opacity: 1;
       }
-      
-      @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-      }
-      
-      @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
       }
 
-      @keyframes shimmer {
-        0% { background-position: -1000px 0; }
-        100% { background-position: 1000px 0; }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(30px);
       }
 
-      @keyframes float {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-10px); }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
       }
 
-      .animate-fadeIn {
-        animation: fadeIn 0.6s ease-out forwards;
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes scaleIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
       }
 
-      .animate-fadeInUp {
-        opacity: 0; /* Start hidden */
-        animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: -1000px 0;
       }
 
-      .animate-float {
-        animation: float 3s ease-in-out infinite;
+      100% {
+        background-position: 1000px 0;
+      }
+    }
+
+    @keyframes shimmerGlow {
+
+      0%,
+      100% {
+        box-shadow: 0 0 20px rgba(var(--glow-color-rgb), 0.3);
       }
 
-      /* Custom Form Styles */
-      .form-input {
-        background: rgba(20, 20, 20, 0.9);
-        border: 2px solid rgba(212, 175, 55, 0.2);
-        color: var(--text-color);
-        border-radius: 0.75rem;
-        padding: 0.875rem 1.25rem;
-        width: 100%;
-        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        font-size: 0.95rem;
+      50% {
+        box-shadow: 0 0 40px rgba(var(--glow-color-rgb), 0.6);
       }
-      .form-input:focus {
-        border-color: var(--glow-color);
-        box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15), 0 4px 12px rgba(212, 175, 55, 0.3);
-        outline: none;
-        background: rgba(20, 20, 20, 1);
-        transform: translateY(-1px);
-      }
-      .form-input::placeholder {
-        color: var(--text-muted-color);
-        opacity: 0.7;
-      }
-      .form-input:hover {
-        border-color: rgba(234, 179, 8, 0.4);
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0px);
       }
 
-      /* Custom Button Styles */
-      .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0.75rem 1.5rem;
-        border-radius: 0.75rem;
-        font-weight: 700;
-        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        cursor: pointer;
-        text-align: center;
-        position: relative;
-        overflow: hidden;
+      50% {
+        transform: translateY(-10px);
       }
-      .btn-primary {
-        background: linear-gradient(135deg, #D4AF37 0%, #C9A428 100%);
-        color: #000000;
-        box-shadow: 0 4px 20px 0 rgba(212, 175, 55, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        font-weight: 800;
-      }
-      .btn-primary:hover {
-        transform: translateY(-3px) scale(1.02);
-        box-shadow: 0 8px 40px 0 rgba(212, 175, 55, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-        background: linear-gradient(135deg, #E5C158 0%, #D4AF37 100%);
-      }
-      .btn-primary:active {
-        transform: translateY(-1px) scale(0.98);
-      }
-      .btn-secondary {
-        background: rgba(20, 20, 20, 0.8);
-        backdrop-filter: blur(12px);
-        border: 2px solid rgba(212, 175, 55, 0.3);
-        color: var(--text-color);
-      }
-      .btn-secondary:hover {
-        background: rgba(212, 175, 55, 0.15);
-        border-color: var(--glow-color);
-        color: var(--glow-color);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 20px 0 rgba(212, 175, 55, 0.3);
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        transform: scale(1);
       }
 
-      /* Custom Scrollbar */
-      ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
+      50% {
+        transform: scale(1.05);
       }
-      ::-webkit-scrollbar-track {
-        background: var(--bg-color);
+    }
+
+    @keyframes ripple {
+      0% {
+        transform: scale(0);
+        opacity: 1;
       }
-      ::-webkit-scrollbar-thumb {
-        background-color: #44403c; /* stone-700 */
-        border-radius: 4px;
+
+      100% {
+        transform: scale(4);
+        opacity: 0;
       }
-      ::-webkit-scrollbar-thumb:hover {
-        background-color: #57534e; /* stone-600 */
+    }
+
+    /* Animation Classes */
+    .animate-fadeIn {
+      animation: fadeIn 0.6s var(--smooth-easing) forwards;
+    }
+
+    .animate-fadeInUp {
+      opacity: 0;
+      animation: fadeInUp 0.8s var(--smooth-easing) forwards;
+    }
+
+    .animate-slideInRight {
+      opacity: 0;
+      animation: slideInRight 0.6s var(--smooth-easing) forwards;
+    }
+
+    .animate-slideInLeft {
+      opacity: 0;
+      animation: slideInLeft 0.6s var(--smooth-easing) forwards;
+    }
+
+    .animate-scaleIn {
+      opacity: 0;
+      animation: scaleIn 0.5s var(--spring-easing) forwards;
+    }
+
+    .animate-float {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .animate-pulse {
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    /* Enhanced Form Styles */
+    .form-input {
+      background: rgba(20, 20, 20, 0.9);
+      border: 2px solid rgba(var(--glow-color-rgb), 0.2);
+      color: var(--text-color);
+      border-radius: 0.875rem;
+      padding: 0.875rem 1.25rem;
+      width: 100%;
+      transition: all 0.3s var(--smooth-easing);
+      font-size: 0.95rem;
+      font-family: inherit;
+    }
+
+    .form-input:focus {
+      border-color: var(--glow-color);
+      box-shadow:
+        0 0 0 4px rgba(var(--glow-color-rgb), 0.15),
+        0 4px 16px rgba(var(--glow-color-rgb), 0.3);
+      outline: none;
+      background: rgba(20, 20, 20, 1);
+      transform: translateY(-1px);
+    }
+
+    .form-input::placeholder {
+      color: var(--text-muted-color);
+      opacity: 0.7;
+    }
+
+    .form-input:hover:not(:focus) {
+      border-color: rgba(var(--glow-color-rgb), 0.4);
+      background: rgba(25, 25, 25, 0.95);
+    }
+
+    /* Enhanced Button Styles with Ripple Effect */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.875rem;
+      font-weight: 700;
+      transition: all 0.3s var(--smooth-easing);
+      cursor: pointer;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border: none;
+      text-decoration: none;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .btn:active::before {
+      width: 300px;
+      height: 300px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #D4AF37 0%, #C9A428 100%);
+      color: #000000;
+      box-shadow:
+        0 4px 20px 0 rgba(var(--glow-color-rgb), 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      font-weight: 800;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow:
+        0 8px 40px 0 rgba(var(--glow-color-rgb), 0.8),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      background: linear-gradient(135deg, #E5C158 0%, #D4AF37 100%);
+    }
+
+    .btn-primary:active {
+      transform: translateY(-1px) scale(0.98);
+    }
+
+    .btn-secondary {
+      background: rgba(20, 20, 20, 0.8);
+      backdrop-filter: blur(12px);
+      border: 2px solid rgba(var(--glow-color-rgb), 0.3);
+      color: var(--text-color);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(var(--glow-color-rgb), 0.15);
+      border-color: var(--glow-color);
+      color: var(--glow-color);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px 0 rgba(var(--glow-color-rgb), 0.3);
+    }
+
+    .btn-secondary:active {
+      transform: translateY(-1px);
+    }
+
+    /* Enhanced Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-color);
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #57534e, #44403c);
+      border-radius: 5px;
+      border: 2px solid var(--bg-color);
+      transition: background 0.3s ease;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: linear-gradient(180deg, #78716c, #57534e);
+    }
+
+    ::-webkit-scrollbar-thumb:active {
+      background: var(--glow-color);
+    }
+
+    /* Hide scrollbar for an element */
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Focus Visible Enhancement */
+    :focus-visible {
+      outline: 2px solid var(--glow-color);
+      outline-offset: 2px;
+    }
+
+    /* Smooth Transitions for Links */
+    a {
+      transition: color 0.2s ease, opacity 0.2s ease;
+    }
+
+    /* Loading Skeleton */
+    @keyframes skeleton-loading {
+      0% {
+        background-position: -200% 0;
       }
-      
-      /* Hide scrollbar for an element */
-      .hide-scrollbar::-webkit-scrollbar {
-        display: none;
+
+      100% {
+        background-position: 200% 0;
       }
-      .hide-scrollbar {
-        -ms-overflow-style: none;  /* IE and Edge */
-        scrollbar-width: none;  /* Firefox */
-      }
-    </style>
+    }
+
+    .skeleton {
+      background: linear-gradient(90deg,
+          rgba(255, 255, 255, 0.03) 25%,
+          rgba(255, 255, 255, 0.08) 50%,
+          rgba(255, 255, 255, 0.03) 75%);
+      background-size: 200% 100%;
+      animation: skeleton-loading 1.5s ease-in-out infinite;
+    }
+
+    /* Utility Classes */
+    .transform-gpu {
+      transform: translateZ(0);
+      will-change: transform;
+    }
+
+    .transition-smooth {
+      transition: all 0.3s var(--smooth-easing);
+    }
+
+    .transition-spring {
+      transition: all 0.5s var(--spring-easing);
+    }
+  </style>
   <script type="importmap">
 {
   "imports": {
@@ -181,10 +421,12 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
+  <link rel="stylesheet" href="/index.css">
 </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/index.tsx"></script>
-  </body>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+
 </html>

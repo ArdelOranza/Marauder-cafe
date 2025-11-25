@@ -232,7 +232,7 @@ export const ItemDetailPage: React.FC<ItemDetailPageProps> = ({ item, sectionNam
             </div>
 
             <div className="relative">
-                <div className="w-full px-4 sm:px-8 lg:px-14 xl:px-20 2xl:px-28 py-16 lg:py-20 space-y-20">
+                <div className="w-full px-4 sm:px-6 lg:px-10 xl:px-14 2xl:px-18 py-12 lg:py-16 space-y-16">
                     <div className="grid gap-4 text-xs uppercase tracking-[0.35em] text-slate-500 sm:grid-cols-[auto,1fr] sm:items-center">
                         <button
                             onClick={() => onNavigate('home', { menuSectionId: sectionId })}
@@ -252,8 +252,8 @@ export const ItemDetailPage: React.FC<ItemDetailPageProps> = ({ item, sectionNam
                         </div>
                     </div>
 
-                    <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,2.2fr)_minmax(340px,1fr)] xl:grid-cols-[minmax(0,2.4fr)_minmax(380px,1fr)]">
-                        <div className="space-y-10">
+                    <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,2.2fr)_minmax(340px,1fr)] xl:grid-cols-[minmax(0,2.4fr)_minmax(380px,1fr)]">
+                        <div className="space-y-8">
                             <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.045] shadow-[0_25px_70px_-40px_rgba(0,0,0,0.85)]">
                                 <div className="relative aspect-video sm:aspect-[3/2] lg:aspect-[16/9]">
                                     {heroImage && (
@@ -287,21 +287,21 @@ export const ItemDetailPage: React.FC<ItemDetailPageProps> = ({ item, sectionNam
 
                         </div>
 
-                        <div className="space-y-8 pb-12 lg:sticky lg:top-24 lg:space-y-10 lg:pb-16">
-                            <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.05] p-10 shadow-[0_20px_60px_-35px_rgba(0,0,0,0.9)]">
+                        <div className="space-y-7 pb-10 lg:sticky lg:top-24 lg:space-y-9 lg:pb-14">
+                            <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.05] p-8 shadow-[0_20px_60px_-35px_rgba(0,0,0,0.9)]">
                                 <div className="absolute inset-0 bg-gradient-to-br from-[var(--glow-color)]/12 via-transparent to-transparent" />
-                                <div className="relative z-10 space-y-6">
-                                    <div className="flex items-start justify-between gap-4">
-                                        <div className="space-y-4">
+                                <div className="relative z-10 space-y-5">
+                                    <div className="flex items-start justify-between gap-3">
+                                        <div className="space-y-3.5">
                                             <p className="font-magic text-xs uppercase tracking-[0.45em] text-[var(--glow-color)]">
                                                 {sectionName.toUpperCase()}
                                             </p>
-                                            <h1 className="font-magic text-4xl text-white sm:text-5xl">
+                                            <h1 className="font-magic text-3xl text-white sm:text-4xl">
                                                 {item.name}
                                             </h1>
                                             <div className="space-y-3">
-                                                <h2 className="font-magic text-xs uppercase tracking-[0.4em] text-slate-200">Brewmaster's Notes</h2>
-                                                <p className="text-sm leading-relaxed text-slate-300">
+                                                <h2 className="font-magic text-[10px] uppercase tracking-[0.35em] text-slate-200">Brewmaster's Notes</h2>
+                                                <p className="text-[12px] leading-relaxed text-slate-300">
                                                     {item.description}
                                                 </p>
                                                 {tastingNotes.length > 0 && (
@@ -327,20 +327,20 @@ export const ItemDetailPage: React.FC<ItemDetailPageProps> = ({ item, sectionNam
                                         </button>
                                     </div>
 
-                                    <div className="grid gap-4 sm:grid-cols-[minmax(0,160px)_1fr] sm:items-center">
+                                    <div className="grid gap-3.5 sm:grid-cols-[minmax(0,160px)_1fr] sm:items-center">
                                         <div className="space-y-1">
-                                            <p className="text-xs uppercase tracking-[0.35em] text-slate-500">Price</p>
-                                            <p className="text-4xl font-semibold text-[var(--glow-color)]">
+                                            <p className="text-[11px] uppercase tracking-[0.3em] text-slate-500">Price</p>
+                                            <p className="text-3xl font-semibold text-[var(--glow-color)]">
                                                 ₱{item.price.toFixed(2)}
                                             </p>
                                         </div>
-                                        <div className="grid gap-3 sm:grid-cols-[minmax(0,160px)_1fr] sm:items-stretch">
+                                        <div className="grid gap-2.5 sm:grid-cols-[minmax(0,160px)_1fr] sm:items-stretch">
                                             <div className="sm:w-full">
                                                 <QuantitySelector quantity={quantity} setQuantity={setQuantity} />
                                             </div>
                                             <button
                                                 onClick={handleAddToCart}
-                                                className="btn btn-primary w-full py-3.5 text-base font-semibold shadow-[0_20px_35px_-20px_rgba(229,181,62,0.65)]"
+                                                className="btn btn-primary w-full py-3 text-sm font-semibold shadow-[0_18px_32px_-20px_rgba(229,181,62,0.6)]"
                                             >
                                                 Add • ₱{(item.price * quantity).toFixed(2)}
                                             </button>
@@ -348,10 +348,10 @@ export const ItemDetailPage: React.FC<ItemDetailPageProps> = ({ item, sectionNam
                                     </div>
 
                                     {highlightStats.length > 0 && (
-                                        <div className="grid gap-3 border-t border-white/5 pt-4 sm:grid-cols-2">
+                                        <div className="grid gap-2.5 border-t border-white/5 pt-3.5 sm:grid-cols-2">
                                             {highlightStats.map(stat => (
-                                                <div key={stat.label} className="rounded-2xl border border-white/5 bg-black/40 px-4 py-3">
-                                                    <p className="text-[10px] uppercase tracking-[0.35em] text-slate-500">{stat.label}</p>
+                                                <div key={stat.label} className="rounded-2xl border border-white/5 bg-black/40 px-3 py-2.5">
+                                                    <p className="text-[10px] uppercase tracking-[0.3em] text-slate-500">{stat.label}</p>
                                                     <p className="mt-1 text-sm font-semibold text-white">{stat.value}</p>
                                                 </div>
                                             ))}
@@ -359,7 +359,7 @@ export const ItemDetailPage: React.FC<ItemDetailPageProps> = ({ item, sectionNam
                                     )}
 
                                     {item.potential_allergens?.length ? (
-                                        <div className="rounded-2xl border border-white/5 bg-black/35 px-4 py-4 space-y-3">
+                                        <div className="rounded-2xl border border-white/5 bg-black/35 px-4 py-3 space-y-2.5">
                                             <p className="font-magic text-xs text-[var(--glow-color)]">Allergens Noted</p>
                                             <div className="flex flex-wrap gap-2">
                                                 {item.potential_allergens.map(allergen => (
@@ -379,7 +379,7 @@ export const ItemDetailPage: React.FC<ItemDetailPageProps> = ({ item, sectionNam
                     </div>
 
                     {relatedPromos.length > 0 && (
-                        <div className="space-y-10 border-t border-white/5 pt-10">
+                        <div className="space-y-8 border-t border-white/5 pt-8">
                             <div className="space-y-4">
                                 <div className="flex flex-wrap items-center justify-between gap-2">
                                     <h2 className="font-magic text-2xl text-white tracking-tight">Related Promotions</h2>
@@ -400,7 +400,7 @@ export const ItemDetailPage: React.FC<ItemDetailPageProps> = ({ item, sectionNam
                                 <h2 className="font-magic text-2xl text-white tracking-tight">More from {sectionName}</h2>
                                 <span className="font-magic text-[10px] uppercase tracking-[0.35em] text-slate-500">Curated by Marauder's Brew</span>
                             </div>
-                            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+                            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                                 {moreFromSection.map(mItem => (
                                     <div
                                         key={mItem.id}

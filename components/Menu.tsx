@@ -21,13 +21,13 @@ interface ComboBuilderModalProps {
 const ComboBuilderModal: React.FC<ComboBuilderModalProps> = ({ item, menuData, onClose }) => {
     const { addToast } = useToast();
     const { addToCart } = useCart();
-    
+
     const [selectedDrink, setSelectedDrink] = useState<MenuItemType | null>(null);
     const [selectedSide, setSelectedSide] = useState<MenuItemType | null>(null);
-    
+
     const drinks = menuData.find(s => s.section_name === "Refreshers")?.items ?? [];
     const sides = menuData.find(s => s.section_name === "Bites")?.items ?? [];
-    
+
     const discount = 50;
     const comboPrice = item.price + (selectedDrink?.price ?? 0) + (selectedSide?.price ?? 0);
     const finalPrice = comboPrice - discount;
@@ -44,7 +44,7 @@ const ComboBuilderModal: React.FC<ComboBuilderModalProps> = ({ item, menuData, o
         onClose();
     };
 
-    const ComboOption: React.FC<{option: MenuItemType, isSelected: boolean, onSelect: () => void}> = ({ option, isSelected, onSelect }) => (
+    const ComboOption: React.FC<{ option: MenuItemType, isSelected: boolean, onSelect: () => void }> = ({ option, isSelected, onSelect }) => (
         <div onClick={onSelect} className={`p-3 rounded-lg border-2 cursor-pointer transition-all flex items-center gap-4 ${isSelected ? 'bg-amber-500/10 border-[var(--glow-color)]' : 'border-stone-700 hover:border-stone-500'}`}>
             <img src={option.image} alt={option.name} className="w-12 h-12 object-cover rounded-md flex-shrink-0" />
             <div className="flex-grow">
@@ -112,8 +112,8 @@ const AllergenFilter: React.FC<AllergenFilterProps> = ({ excludedAllergens, onAl
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
                 {ALLERGENS_LIST.map(allergen => (
-                    <label 
-                        key={allergen} 
+                    <label
+                        key={allergen}
                         className="flex items-center gap-2 cursor-pointer p-2.5 rounded-lg bg-white/[0.02] border border-white/5 hover:border-white/10 transition-all duration-200"
                     >
                         <input
@@ -158,73 +158,76 @@ const MenuItem: React.FC<MenuItemProps> = ({ item, onNavigate, onMakeCombo, isMe
     };
 
     return (
-        <div 
+        <div
             onClick={() => onNavigate('item', { id: item.id })}
-            className="group relative overflow-hidden cursor-pointer bg-white/[0.02] rounded-2xl border border-white/5 hover:border-[var(--glow-color)]/40 transition-all duration-300 hover:shadow-lg hover:shadow-[var(--glow-color)]/10 flex flex-col h-full backdrop-blur-sm"
+            className="group relative overflow-hidden cursor-pointer bg-white/[0.02] rounded-2xl border border-white/5 hover:border-[var(--glow-color)]/50 transition-all duration-300 hover:shadow-lg hover:shadow-[var(--glow-color)]/20 hover:scale-[1.02] flex flex-col h-full backdrop-blur-sm transform-gpu"
         >
             {/* Image Container */}
             <div className="relative aspect-video overflow-hidden rounded-t-2xl">
-                <img 
-                    src={item.image} 
-                    alt={item.name} 
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" 
+                <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-95"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+
                 {/* Badge */}
                 {item.is_recommended && (
-                    <div className="absolute top-3 left-3 bg-[var(--glow-color)] text-black px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">
+                    <div className="absolute top-3 left-3 bg-[var(--glow-color)] text-black px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider animate-pulse shadow-lg">
                         Recommended
                     </div>
                 )}
-                
+
                 {/* Quick Add Button */}
-                <button 
+                <button
                     onClick={handleAddToCart}
-                    className="absolute top-3 right-3 p-2.5 rounded-full bg-white/90 backdrop-blur-sm text-black opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110" 
+                    className="absolute top-3 right-3 p-3 rounded-full bg-white/95 backdrop-blur-sm text-black opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-125 hover:bg-[var(--glow-color)] hover:shadow-xl active:scale-100"
                     aria-label="Add to cart"
                 >
                     <PlusIcon />
                 </button>
             </div>
-            
+
             {/* Content */}
             <div className="p-5 flex flex-col flex-1 gap-3">
                 <div className="flex-1 space-y-2">
-                    <h4 className="font-semibold text-base text-white leading-tight line-clamp-1">{item.name}</h4>
+                    <h4 className="font-semibold text-base text-white leading-tight line-clamp-1 group-hover:text-[var(--glow-color)] transition-colors">{item.name}</h4>
                     {item.description && (
                         <p className="text-slate-400 text-xs leading-relaxed line-clamp-2">{item.description}</p>
                     )}
                 </div>
-                
+
                 <div className="flex items-center justify-between pt-3 border-t border-white/5">
                     <div className="flex flex-col">
-                        <p className="text-[var(--glow-color)] font-bold text-xl leading-tight">{formatPrice(basePrice)}</p>
+                        <p className="text-[var(--glow-color)] font-bold text-xl leading-tight" style={{ textShadow: '0 0 10px rgba(var(--glow-color-rgb), 0.3)' }}>{formatPrice(basePrice)}</p>
                         {hasVariantPricing && variantSummary && (
                             <p className="text-[11px] text-slate-400 font-medium tracking-wide leading-tight">{variantSummary}</p>
                         )}
                     </div>
-                    <button 
+                    <button
                         onClick={(e) => { e.stopPropagation(); onNavigate('item', { id: item.id }); }}
-                        className="text-xs font-medium text-slate-300 hover:text-white transition-colors"
+                        className="group/btn inline-flex items-center gap-1 text-xs font-medium text-slate-300 hover:text-[var(--glow-color)] transition-colors"
                     >
-                        View →
+                        View
+                        <svg className="w-3 h-3 transition-transform group-hover/btn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                        </svg>
                     </button>
                 </div>
-                
+
                 {isMealItem && (
-                    <button 
-                        onClick={(e) => { e.stopPropagation(); onMakeCombo(item); }} 
-                        className="w-full group relative overflow-hidden rounded-xl border border-[var(--glow-color)]/30 bg-gradient-to-r from-white/5 via-white/10 to-white/5 py-3 text-sm font-semibold text-white shadow-[0_18px_35px_-20px_rgba(229,181,62,0.55)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[var(--glow-color)]/60 hover:shadow-[0_25px_45px_-22px_rgba(229,181,62,0.75)]"
+                    <button
+                        onClick={(e) => { e.stopPropagation(); onMakeCombo(item); }}
+                        className="group/combo relative overflow-hidden rounded-xl border border-[var(--glow-color)]/30 bg-gradient-to-r from-white/5 via-white/10 to-white/5 py-3 text-sm font-semibold text-white shadow-[0_18px_35px_-20px_rgba(229,181,62,0.55)] transition-all duration-300 hover:-translate-y-1 hover:border-[var(--glow-color)]/70 hover:shadow-[0_25px_45px_-22px_rgba(229,181,62,0.85)] hover:scale-[1.02] transform-gpu"
                     >
                         <span className="relative z-10 flex items-center justify-center gap-2 tracking-wide">
-                            <svg className="h-4 w-4 text-[var(--glow-color)] transition-transform duration-300 group-hover:scale-110" fill="currentColor" viewBox="0 0 20 20">
+                            <svg className="h-4 w-4 text-[var(--glow-color)] transition-all duration-300 group-hover/combo:scale-125 group-hover/combo:rotate-12" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                             </svg>
                             Make it a Combo
                             <span className="text-[var(--glow-color)] text-xs font-bold uppercase tracking-[0.3em]">Save ₱50</span>
                         </span>
-                        <span className="absolute inset-0 -z-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-[var(--glow-color)]/10 blur-sm"></span>
+                        <span className="absolute inset-0 -z-0 opacity-0 group-hover/combo:opacity-100 transition-opacity duration-300 bg-[var(--glow-color)]/15 blur-sm"></span>
                     </button>
                 )}
             </div>
@@ -242,25 +245,30 @@ const MenuSection: React.FC<MenuSectionProps> = ({ section, onNavigate, onMakeCo
     const sectionId = section.section_name.replace(/\s+/g, '-').toLowerCase();
     const mealSections = ["Burgers & Sliders", "Pasta", "Rice Meals"];
     const isMealSection = mealSections.includes(section.section_name);
-    
+
     return (
         <section id={sectionId} className="scroll-mt-24 space-y-8">
-            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+            <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 animate-fadeInUp">
                 <div className="space-y-2">
                     <h3 className="font-magic text-4xl text-white tracking-tight">{section.section_name}</h3>
-                    <div className="h-0.5 w-16 bg-[var(--glow-color)] rounded-full"></div>
+                    <div className="h-0.5 w-16 bg-gradient-to-r from-[var(--glow-color)] to-yellow-600 rounded-full"></div>
                 </div>
             </div>
 
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {section.items.map(item => (
-                    <MenuItem 
-                        key={item.id} 
-                        item={item} 
-                        onNavigate={onNavigate} 
-                        onMakeCombo={onMakeCombo}
-                        isMealItem={isMealSection}
-                    />
+                {section.items.map((item, idx) => (
+                    <div
+                        key={item.id}
+                        className="animate-fadeInUp"
+                        style={{ animationDelay: `${idx * 0.05}s` }}
+                    >
+                        <MenuItem
+                            item={item}
+                            onNavigate={onNavigate}
+                            onMakeCombo={onMakeCombo}
+                            isMealItem={isMealSection}
+                        />
+                    </div>
                 ))}
             </div>
         </section>
@@ -293,12 +301,12 @@ const menuGroups = [
     {
         title: "",
         id: "desserts-salads",
-        sections: [ "Desserts & Salads" ]
+        sections: ["Desserts & Salads"]
     },
     {
         title: "Group Packages",
         id: "group-packages",
-        sections: [ "Group Packages" ]
+        sections: ["Group Packages"]
     }
 ];
 
@@ -342,16 +350,16 @@ export const Menu: React.FC<MenuProps> = ({ menuData, onNavigate, settings }) =>
     const clearAllergens = () => {
         setExcludedAllergens([]);
     };
-    
+
     const filteredMenuData = excludedAllergens.length === 0
         ? menuData
         : menuData.map(section => ({
             ...section,
-            items: section.items.filter(item => 
+            items: section.items.filter(item =>
                 !item.potential_allergens || !item.potential_allergens.some(allergen => excludedAllergens.includes(allergen))
             )
         })).filter(section => section.items.length > 0);
-    
+
     const hasResults = filteredMenuData.some(section => section.items.length > 0);
 
     return (
@@ -381,98 +389,98 @@ export const Menu: React.FC<MenuProps> = ({ menuData, onNavigate, settings }) =>
             </div>
 
             <main className="relative w-full pt-6 pb-16 px-4 sm:px-6 lg:px-10">
-             {settings?.allergenNotice && (
-                <div className="mb-8 rounded-2xl border border-amber-500/30 bg-amber-500/10 px-6 py-4 text-sm text-amber-100 shadow-[0_22px_60px_-40px_rgba(229,181,62,0.55)]">
-                    <div className="flex items-start gap-3">
-                        <svg className="mt-1 h-5 w-5 text-amber-300 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                        </svg>
-                        <p className="font-magic text-xs uppercase tracking-[0.35em] text-amber-300">Allergen Notice</p>
-                    </div>
-                    <p className="mt-2 text-sm leading-relaxed text-amber-100/90">
-                        {settings.allergenNotice}
-                    </p>
-                </div>
-             )}
-             <div className="mb-10">
-                <div className="flex justify-end">
-                    <button 
-                        onClick={() => setIsFilterOpen(!isFilterOpen)} 
-                        className="px-4 py-2.5 bg-white/[0.02] hover:bg-white/[0.05] border border-white/10 hover:border-white/20 rounded-lg flex items-center gap-2 transition-all duration-200"
-                    >
-                        {isFilterOpen ? <XIcon/> : <FilterIcon />}
-                        <span className="text-white text-sm font-medium">Filters</span>
-                        {excludedAllergens.length > 0 && (
-                            <span className="bg-[var(--glow-color)] text-black text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                                {excludedAllergens.length}
-                            </span>
-                        )}
-                    </button>
-                </div>
-                {isFilterOpen && (
-                    <div className="mt-4 animate-fadeIn">
-                        <AllergenFilter 
-                            excludedAllergens={excludedAllergens}
-                            onAllergenToggle={handleAllergenToggle}
-                            onClear={clearAllergens}
-                        />
+                {settings?.allergenNotice && (
+                    <div className="mb-8 rounded-2xl border border-amber-500/30 bg-amber-500/10 px-6 py-4 text-sm text-amber-100 shadow-[0_22px_60px_-40px_rgba(229,181,62,0.55)]">
+                        <div className="flex items-start gap-3">
+                            <svg className="mt-1 h-5 w-5 text-amber-300 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                            </svg>
+                            <p className="font-magic text-xs uppercase tracking-[0.35em] text-amber-300">Allergen Notice</p>
+                        </div>
+                        <p className="mt-2 text-sm leading-relaxed text-amber-100/90">
+                            {settings.allergenNotice}
+                        </p>
                     </div>
                 )}
-            </div>
+                <div className="mb-10">
+                    <div className="flex justify-end">
+                        <button
+                            onClick={() => setIsFilterOpen(!isFilterOpen)}
+                            className="px-4 py-2.5 bg-white/[0.02] hover:bg-white/[0.05] border border-white/10 hover:border-white/20 rounded-lg flex items-center gap-2 transition-all duration-200"
+                        >
+                            {isFilterOpen ? <XIcon /> : <FilterIcon />}
+                            <span className="text-white text-sm font-medium">Filters</span>
+                            {excludedAllergens.length > 0 && (
+                                <span className="bg-[var(--glow-color)] text-black text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                                    {excludedAllergens.length}
+                                </span>
+                            )}
+                        </button>
+                    </div>
+                    {isFilterOpen && (
+                        <div className="mt-4 animate-fadeIn">
+                            <AllergenFilter
+                                excludedAllergens={excludedAllergens}
+                                onAllergenToggle={handleAllergenToggle}
+                                onClear={clearAllergens}
+                            />
+                        </div>
+                    )}
+                </div>
 
-            <div className="space-y-16">
-                {hasResults ? (
-                    menuGroups.map(group => {
-                        const sectionsInGroup = filteredMenuData.filter(section => group.sections.includes(section.section_name));
-                        if (sectionsInGroup.length === 0) return null;
+                <div className="space-y-16">
+                    {hasResults ? (
+                        menuGroups.map(group => {
+                            const sectionsInGroup = filteredMenuData.filter(section => group.sections.includes(section.section_name));
+                            if (sectionsInGroup.length === 0) return null;
 
-                        const primarySectionName = sectionsInGroup[0]?.section_name;
-                        const showGroupTitle = Boolean(
-                            group.title && (
-                                group.title !== primarySectionName || sectionsInGroup.length > 1
-                            )
-                        );
+                            const primarySectionName = sectionsInGroup[0]?.section_name;
+                            const showGroupTitle = Boolean(
+                                group.title && (
+                                    group.title !== primarySectionName || sectionsInGroup.length > 1
+                                )
+                            );
 
-                        return (
-                            <div id={group.id} key={group.id} className="scroll-mt-24 space-y-12">
-                                {showGroupTitle && (
-                                    <div className="text-center">
-                                        <h2 className="font-magic text-5xl text-white tracking-tight mb-2">{group.title}</h2>
-                                        <div className="mx-auto w-20 h-1 bg-[var(--glow-color)] rounded-full"></div>
-                                    </div>
-                                )}
-                                <div className="space-y-12">
-                                    {sectionsInGroup.map(section => 
-                                        <MenuSection 
-                                            key={section.section_name} 
-                                            section={section} 
-                                            onNavigate={onNavigate}
-                                            onMakeCombo={handleMakeCombo}
-                                        />
+                            return (
+                                <div id={group.id} key={group.id} className="scroll-mt-24 space-y-12">
+                                    {showGroupTitle && (
+                                        <div className="text-center">
+                                            <h2 className="font-magic text-5xl text-white tracking-tight mb-2">{group.title}</h2>
+                                            <div className="mx-auto w-20 h-1 bg-[var(--glow-color)] rounded-full"></div>
+                                        </div>
                                     )}
+                                    <div className="space-y-12">
+                                        {sectionsInGroup.map(section =>
+                                            <MenuSection
+                                                key={section.section_name}
+                                                section={section}
+                                                onNavigate={onNavigate}
+                                                onMakeCombo={handleMakeCombo}
+                                            />
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                        );
-                    })
-                ) : (
-                    <div className="text-center py-20 bg-white/[0.02] rounded-2xl border border-white/5">
-                        <svg className="w-16 h-16 mx-auto mb-4 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                        <h3 className="font-semibold text-xl text-white mb-2">No Matching Items</h3>
-                        <p className="text-slate-400 text-sm">Try adjusting your filters</p>
-                    </div>
+                            );
+                        })
+                    ) : (
+                        <div className="text-center py-20 bg-white/[0.02] rounded-2xl border border-white/5">
+                            <svg className="w-16 h-16 mx-auto mb-4 text-slate-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                            <h3 className="font-semibold text-xl text-white mb-2">No Matching Items</h3>
+                            <p className="text-slate-400 text-sm">Try adjusting your filters</p>
+                        </div>
+                    )}
+                </div>
+
+                {comboItem && (
+                    <ComboBuilderModal
+                        item={comboItem}
+                        menuData={menuData}
+                        onClose={() => setComboItem(null)}
+                    />
                 )}
-            </div>
-            
-            {comboItem && (
-                <ComboBuilderModal 
-                    item={comboItem}
-                    menuData={menuData}
-                    onClose={() => setComboItem(null)}
-                />
-            )}
-        </main>
-    </section>
-);
+            </main>
+        </section>
+    );
 };
